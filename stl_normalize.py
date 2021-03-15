@@ -743,7 +743,7 @@ class StlData(object):
                     break
 
     def _write_ascii_file(self, filename):
-        with open(filename, 'wb') as f:
+        with open(filename, 'w') as f:
             f.write("solid Model\n")
             for facet in self.facets.sorted():
                 f.write(
