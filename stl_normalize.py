@@ -36,8 +36,21 @@ def float_fmt(val):
     s = "{0:.6f}".format(val).rstrip('0').rstrip('.')
     return s if s != '-0' else '0'
 
+# Code from https://stackoverflow.com/a/1061350
+class ComparableMixin:
+  def __eq__(self, other):
+    return not self<other and not other<self
+  def __ne__(self, other):
+    return self<other or other<self
+  def __gt__(self, other):
+    return other<self
+  def __ge__(self, other):
+    return not self<other
+  def __le__(self, other):
+    return not other<self
 
-class Vector(object):
+
+class Vector(ComparableMixin):
     """Class to represent an N dimentional vector."""
 
     def __init__(self, *args):
@@ -79,15 +92,15 @@ class Vector(object):
     def __eq__(self, other):
         """Equality comparison for points."""
         return self._values == other._values
-
-    def __cmp__(self, other):
+    
+    def __lt__(self, other):
         """Compare points for sort ordering in an arbitrary heirarchy."""
         longzip = ziplong(self._values, other, fillvalue=0.0)
         for v1, v2 in reversed(list(longzip)):
             val = cmp(v1, v2)
-            if val != 0:
-                return val
-        return 0
+            if val < 0:
+                return True
+        return False
 
     def __sub__(self, v):
         return Vector(i - j for i, j in zip(self._values, v))
@@ -101,7 +114,7 @@ class Vector(object):
     def __radd__(self, v):
         return Vector(i + j for i, j in zip(v, self._values))
 
-    def __div__(self, s):
+    def __truediv__(self, s):
         """Divide each element in a vector by a scalar."""
         return Vector(x / (s+0.0) for x in self._values)
 

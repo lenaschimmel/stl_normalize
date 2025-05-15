@@ -17,6 +17,25 @@ This script does the following to normalize STL files:
 * Rewrites the file in ASCII STL format.
 * Writes vertex coordinate data in a consistent compact way.
 
+Fork info
+---------
+
+This fork was created to:
+ - Enable compatibility with python3. I did nothing to ensure that it still works with python2, 
+   though I think it would be possible to maintain cross-compatibilty with some tweaks.
+ - Streamline installation using `requirements.txt` and recommending `venv`.
+
+Installation
+------------
+
+The following works on MacOS. On other systems, you may have to adjust some details:
+
+```sh
+ python3 -m venv venv
+ source ./venv/bin/activate
+ python3 -m pip install -r requirements.txt
+```
+
 
 Usage
 -----
